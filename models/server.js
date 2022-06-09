@@ -18,6 +18,9 @@ class Server {
 
         // Rutas de mi aplicación
         this.routes();
+
+        // sockets
+        this.sockets();
     }
 
 
@@ -36,6 +39,22 @@ class Server {
         
         //this.app.use( this.paths.auth, require('../routes/auth'));
         
+    }
+
+    sockets(){
+        this.io.on('connection', socket => {
+
+            console.log('Cliente Conectado', socket.id);
+            
+
+            socket.on('disconnect', () => {
+                console.log('Cliente Desconectado', socket.id);
+            });
+
+            socket.on('enviar-mensaje', (payload) => {
+                console.log(payload);
+            });
+        });
     }
 
     listen() {
